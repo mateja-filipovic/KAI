@@ -43,24 +43,19 @@ public class CarController : MonoBehaviour
 
     private Rigidbody carRb;
 
-    //private CarLights carLights;
-
     void Start()
     {
         carRb = GetComponent<Rigidbody>();
         carRb.centerOfMass = _centerOfMass;
-
-        //carLights = GetComponent<CarLights>();
     }
 
     void Update()
     {
         GetInputs();
         AnimateWheels();
-        //WheelEffects();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         Move();
         Steer();
@@ -114,9 +109,6 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelCollider.brakeTorque = 300 * brakeAcceleration * Time.deltaTime;
             }
-
-            //carLights.isBackLightOn = true;
-            //carLights.OperateBackLights();
         }
         else
         {
@@ -124,9 +116,6 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelCollider.brakeTorque = 0;
             }
-
-            //carLights.isBackLightOn = false;
-            //carLights.OperateBackLights();
         }
     }
 
@@ -141,22 +130,4 @@ public class CarController : MonoBehaviour
             wheel.wheelModel.transform.rotation = rot;
         }
     }
-
-    // void WheelEffects()
-    // {
-    //     foreach (var wheel in wheels)
-    //     {
-    //         //var dirtParticleMainSettings = wheel.smokeParticle.main;
-
-    //         if (Input.GetKey(KeyCode.Space) && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
-    //         {
-    //             wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
-    //             //wheel.smokeParticle.Emit(1);
-    //         }
-    //         else
-    //         {
-    //             wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
-    //         }
-    //     }
-    // }
 }
