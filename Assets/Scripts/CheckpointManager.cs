@@ -22,9 +22,12 @@ public class CheckpointManager : MonoBehaviour
     // List of all the cars
     public List<Transform> Cars { get => _cars; set => _cars = value; }
 
-    // keeping track of the next checkpoints for each car
+
+
+    // Keeping track of the next checkpoints for each car
     private List<int> _nextCheckpointIndexes;
 
+    // List of all available checkpoints
     private List<Checkpoint> _checkpoints = null!;
 
     private int _checkpointCount = 0;
@@ -34,7 +37,11 @@ public class CheckpointManager : MonoBehaviour
         _checkpoints = new();
         _nextCheckpointIndexes = new();
 
-        // cycle through all the children
+        InitializeCheckpoints();
+    }
+
+    private void InitializeCheckpoints()
+    {
         foreach(Transform cpTransform in _checkpointsTransform)
         {
             var checkpoint = cpTransform.GetComponent<Checkpoint>();
@@ -42,7 +49,7 @@ public class CheckpointManager : MonoBehaviour
             _checkpointCount++;
             _nextCheckpointIndexes.Add(0);
             checkpoint.CheckpointManager = this;
-        }
+        }       
     }
 
     public void OnCheckpointReached(Checkpoint checkpoint, Transform car)
@@ -61,75 +68,4 @@ public class CheckpointManager : MonoBehaviour
 
     private void SetNextCheckpointForCar(int carIndex) =>
         _nextCheckpointIndexes[carIndex] = (_nextCheckpointIndexes[carIndex] + 1) % _checkpointCount;
-
-    // public float MaxTimeToReachNextCheckpoint = 30f;
-    // public float TimeLeft = 30f;
-    
-    // public CarAgent kartAgent;
-    // public Checkpoint nextCheckPointToReach;
-    
-    // private int CurrentCheckpointIndex;
-    // private List<Checkpoint> Checkpoints;
-    // private Checkpoint lastCheckpoint;
-
-    // public event Action<Checkpoint> reachedCheckpoint; 
-
-    // void Awake()
-    // {
-    //     Checkpoints = new List<Checkpoint>(GetComponentsInChildren<Checkpoint>());
-    // }
-
-    // void Start()
-    // {
-    //     ResetCheckpoints();
-    // }
-
-    // public void ResetCheckpoints()
-    // {
-    //     CurrentCheckpointIndex = 0;
-    //     TimeLeft = MaxTimeToReachNextCheckpoint;
-        
-    //     SetNextCheckpoint();
-    // }
-
-    // private void Update()
-    // {
-    //     TimeLeft -= Time.deltaTime;
-
-    //     if (TimeLeft < 0f)
-    //     {
-    //         kartAgent.AddReward(-1f);
-    //         kartAgent.EndEpisode();
-    //     }
-    // }
-
-    // public void CheckPointReached(Checkpoint checkpoint)
-    // {
-    //     if (nextCheckPointToReach != checkpoint) return;
-        
-    //     lastCheckpoint = Checkpoints[CurrentCheckpointIndex];
-    //     reachedCheckpoint?.Invoke(checkpoint);
-    //     CurrentCheckpointIndex++;
-
-    //     if (CurrentCheckpointIndex >= Checkpoints.Count)
-    //     {
-    //         kartAgent.AddReward(0.5f);
-    //         kartAgent.EndEpisode();
-    //     }
-    //     else
-    //     {
-    //         kartAgent.AddReward((0.5f) / Checkpoints.Count);
-    //         SetNextCheckpoint();
-    //     }
-    // }
-
-    // private void SetNextCheckpoint()
-    // {
-    //     if (Checkpoints.Count > 0)
-    //     {
-    //         TimeLeft = MaxTimeToReachNextCheckpoint;
-    //         nextCheckPointToReach = Checkpoints[CurrentCheckpointIndex];
-            
-    //     }
-    // }
 }

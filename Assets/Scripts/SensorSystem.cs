@@ -133,18 +133,4 @@ public class SensorSystem : MonoBehaviour
             Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);            
         }
     }
-
-
-
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-        
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 }
