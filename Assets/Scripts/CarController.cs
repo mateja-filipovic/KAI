@@ -43,24 +43,54 @@ public class CarController : MonoBehaviour
 
     private Rigidbody carRb;
 
+    private SensorSystem sensors;
+
     void Start()
     {
         carRb = GetComponent<Rigidbody>();
+        sensors = GetComponent<SensorSystem>();
         carRb.centerOfMass = _centerOfMass;
+    }
+
+    // void Update()
+    // {
+    //     GetInputs();
+    //     AnimateWheels();
+    // }
+
+    public void Re(float a, float b)
+    {
+        GetInputs(a, b);
+        AnimateWheels();
+    }
+
+    void LateUpdate()
+    {
+        sensors.Sensors();
+        Move();
+        Steer();
+        Brake();
+        //sensors.Sensors();
     }
 
     void Update()
     {
-        GetInputs();
-        AnimateWheels();
+        //sensors.Sensors();
     }
-
-    void FixedUpdate()
-    {
-        Move();
-        Steer();
-        Brake();
-    }
+    // void Update()
+    // {
+    //     int layer_mask = LayerMask.GetMask("SensorLayer");
+    //     int sensorLength = 25;
+    //     RaycastHit hit;
+    //     Vector3 sensorStartingPosition = this.carRb.transform.position;
+    //     // add offset
+    //     sensorStartingPosition.y = 1.0f;
+    //     if(Physics.Raycast(sensorStartingPosition, this.carRb.transform.forward, out hit, sensorLength, layer_mask))
+    //     {
+    //         //Debug.Log($"Drawing line from {sensorStartingPosition} to {hit.point}");
+    //         Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
+    //     }
+    // }
 
     public void MoveInput(float input)
     {
@@ -72,12 +102,34 @@ public class CarController : MonoBehaviour
         steerInput = input;
     }
 
-    void GetInputs()
+    void GetInputs(float? _moveInput = null, float? _steerInput = null)
     {
+        if(_moveInput.HasValue && _steerInput.HasValue)
+        {
+            moveInput = _moveInput.Value;
+            steerInput = _steerInput.Value;
+        }
         if(control == ControlMode.Keyboard)
         {
             moveInput = Input.GetAxis("Vertical");
             steerInput = Input.GetAxis("Horizontal");
+        }
+    }
+
+
+    void Sensors()
+    {
+        int layer_mask = LayerMask.GetMask("SensorLayer");
+        int sensorLength = 25;
+        RaycastHit hit;
+        Vector3 sensorStartingPosition = this.carRb.transform.position;
+        // add offset
+        sensorStartingPosition.y += 0.5f;
+        sensorStartingPosition.z += 0.2f;
+        if(Physics.Raycast(sensorStartingPosition, this.carRb.transform.forward, out hit, sensorLength, layer_mask))
+        {
+            //Debug.Log($"Drawing line from {sensorStartingPosition} to {hit.point}");
+            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
         }
     }
 
