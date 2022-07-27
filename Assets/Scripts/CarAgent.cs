@@ -24,7 +24,7 @@ public class CarAgent : Agent
     {
         float steer = actions.ContinuousActions[0];
         float accel = actions.ContinuousActions[1];
-        _carController.Re(accel, steer);
+        _carController.AcceptInput(accel, steer);
     }
 
     public override void CollectObservations(VectorSensor sensor)

@@ -58,33 +58,32 @@ public class CarController : MonoBehaviour
         _car = GetComponent<Rigidbody>();
         _car.centerOfMass = _centerOfMass;
 
-         _sensors = GetComponent<SensorSystem>();
+        _sensors = GetComponent<SensorSystem>();
     }
 
-    public void Re(float a, float b)
+    public void AcceptInput(float accelerationInput, float steerInput)
     {
-        GetInputs(a, b);
+        GetInputs(accelerationInput, steerInput);
         AnimateWheels();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         _sensors.Sensors();
-        Move();
+        Accelerate();
         Steer();
         Brake();
     }
 
-    void GetInputs(float? moveInput = null, float? steerInput = null)
+    private void GetInputs(float? accelerationInput = null, float? steerInput = null)
     {
-        if(moveInput.HasValue && steerInput.HasValue)
-        {
-            _accelerationInput = moveInput.Value;
+        if(accelerationInput.HasValue)
+            _accelerationInput = accelerationInput.Value;
+        if(steerInput.HasValue)
             _steerInput = steerInput.Value;
-        }
     }
 
-    void Move()
+    private void Accelerate()
     {
         foreach(var wheel in wheels)
         {
@@ -92,10 +91,11 @@ public class CarController : MonoBehaviour
         }
     }
 
-    void Steer()
+    private void Steer()
     {
         foreach(var wheel in wheels)
         {
+            // only front axel wheels can be steered
             if (wheel.axel == Axel.Front)
             {
                 var _steerAngle = _steerInput * _turnSensitivity * _maxSteerAngle;
@@ -104,25 +104,21 @@ public class CarController : MonoBehaviour
         }
     }
 
-    void Brake()
+    private void Brake()
     {
-        if (Input.GetKey(KeyCode.Space) || _accelerationInput == 0)
+        if (_accelerationInput == 0)
         {
             foreach (var wheel in wheels)
-            {
                 wheel.wheelCollider.brakeTorque = 300 * _brakeForce * Time.deltaTime;
-            }
         }
         else
         {
             foreach (var wheel in wheels)
-            {
                 wheel.wheelCollider.brakeTorque = 0;
-            }
         }
     }
 
-    void AnimateWheels()
+    private void AnimateWheels()
     {
         foreach(var wheel in wheels)
         {
