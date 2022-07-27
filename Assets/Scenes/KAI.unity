@@ -1551,10 +1551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302a706a81bdc46fb9f547c141edadf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 10, z: -20}
-  target: {fileID: 1004597478}
-  translateSpeed: 10
-  rotationSpeed: 10
+  _offset: {x: 0, y: 5, z: -15}
+  _target: {fileID: 1004597478}
+  _translateSpeed: 10
+  _rotationSpeed: 10
 --- !u!1001 &966853312
 PrefabInstance:
   m_ObjectHideFlags: 0
