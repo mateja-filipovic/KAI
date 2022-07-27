@@ -1659,13 +1659,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943a6edb0d24340398a6d5b961ff8b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  control: 0
-  maxAcceleration: 900
-  brakeAcceleration: 1500
-  turnSensitivity: 1.5
-  maxSteerAngle: 30
+  _maxAcceleration: 900
+  _brakeForce: 1500
+  _turnSensitivity: 1.2
+  _maxSteerAngle: 30
   _centerOfMass: {x: 0, y: 0, z: 0}
-  wheels:
+  _wheels:
   - wheelModel: {fileID: 1346575571}
     wheelCollider: {fileID: 1865914056}
     axel: 0

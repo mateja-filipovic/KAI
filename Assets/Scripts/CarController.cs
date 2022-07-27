@@ -4,12 +4,6 @@ using System.Collections.Generic;
 
 public class CarController : MonoBehaviour
 {
-    public enum ControlMode
-    {
-        Keyboard,
-        Buttons
-    };
-
     public enum Axel
     {
         Front,
@@ -21,42 +15,51 @@ public class CarController : MonoBehaviour
     {
         public GameObject wheelModel;
         public WheelCollider wheelCollider;
-        //public GameObject wheelEffectObj;
-        //public ParticleSystem smokeParticle;
         public Axel axel;
     }
 
-    public ControlMode control;
+    #region Properties
 
-    public float maxAcceleration = 30.0f;
-    public float brakeAcceleration = 50.0f;
+    [SerializeField]
+    private float _maxAcceleration;
 
-    public float turnSensitivity = 1.0f;
-    public float maxSteerAngle = 30.0f;
+    [SerializeField]
+    private float _brakeForce;
 
-    public Vector3 _centerOfMass;
+    [SerializeField]
+    private float _turnSensitivity;
 
-    public List<Wheel> wheels;
+    [SerializeField]
+    private float _maxSteerAngle;
 
-    float moveInput;
-    float steerInput;
+    [SerializeField]
+    private Vector3 _centerOfMass;
 
-    private Rigidbody carRb;
+    [SerializeField]
+    private List<Wheel> _wheels;
 
-    private SensorSystem sensors;
+    #endregion
+
+    public float MaxAcceleration { get => _maxAcceleration; set => _maxAcceleration = value; }
+    public float BrakeForce { get => _brakeForce; set => _brakeForce = value; }
+    public float TurnSensitivity { get => _turnSensitivity; set => _turnSensitivity = value; }
+    public float MaxSteerAngle { get => _maxAcceleration; set => _maxSteerAngle = value; }
+    public Vector3 CenterOfMass { get => _centerOfMass; set => _centerOfMass = value; }
+    public List<Wheel> wheels { get => _wheels; set => _wheels = value; }
+
+    // used internally
+    float _accelerationInput;
+    float _steerInput;
+    private Rigidbody _car;
+    private SensorSystem _sensors;
 
     void Start()
     {
-        carRb = GetComponent<Rigidbody>();
-        sensors = GetComponent<SensorSystem>();
-        carRb.centerOfMass = _centerOfMass;
-    }
+        _car = GetComponent<Rigidbody>();
+        _car.centerOfMass = _centerOfMass;
 
-    // void Update()
-    // {
-    //     GetInputs();
-    //     AnimateWheels();
-    // }
+         _sensors = GetComponent<SensorSystem>();
+    }
 
     public void Re(float a, float b)
     {
@@ -66,70 +69,18 @@ public class CarController : MonoBehaviour
 
     void LateUpdate()
     {
-        sensors.Sensors();
+        _sensors.Sensors();
         Move();
         Steer();
         Brake();
-        //sensors.Sensors();
     }
 
-    void Update()
+    void GetInputs(float? moveInput = null, float? steerInput = null)
     {
-        //sensors.Sensors();
-    }
-    // void Update()
-    // {
-    //     int layer_mask = LayerMask.GetMask("SensorLayer");
-    //     int sensorLength = 25;
-    //     RaycastHit hit;
-    //     Vector3 sensorStartingPosition = this.carRb.transform.position;
-    //     // add offset
-    //     sensorStartingPosition.y = 1.0f;
-    //     if(Physics.Raycast(sensorStartingPosition, this.carRb.transform.forward, out hit, sensorLength, layer_mask))
-    //     {
-    //         //Debug.Log($"Drawing line from {sensorStartingPosition} to {hit.point}");
-    //         Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-    //     }
-    // }
-
-    public void MoveInput(float input)
-    {
-        moveInput = input;
-    }
-
-    public void SteerInput(float input)
-    {
-        steerInput = input;
-    }
-
-    void GetInputs(float? _moveInput = null, float? _steerInput = null)
-    {
-        if(_moveInput.HasValue && _steerInput.HasValue)
+        if(moveInput.HasValue && steerInput.HasValue)
         {
-            moveInput = _moveInput.Value;
-            steerInput = _steerInput.Value;
-        }
-        if(control == ControlMode.Keyboard)
-        {
-            moveInput = Input.GetAxis("Vertical");
-            steerInput = Input.GetAxis("Horizontal");
-        }
-    }
-
-
-    void Sensors()
-    {
-        int layer_mask = LayerMask.GetMask("SensorLayer");
-        int sensorLength = 25;
-        RaycastHit hit;
-        Vector3 sensorStartingPosition = this.carRb.transform.position;
-        // add offset
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition.z += 0.2f;
-        if(Physics.Raycast(sensorStartingPosition, this.carRb.transform.forward, out hit, sensorLength, layer_mask))
-        {
-            //Debug.Log($"Drawing line from {sensorStartingPosition} to {hit.point}");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
+            _accelerationInput = moveInput.Value;
+            _steerInput = steerInput.Value;
         }
     }
 
@@ -137,7 +88,7 @@ public class CarController : MonoBehaviour
     {
         foreach(var wheel in wheels)
         {
-            wheel.wheelCollider.motorTorque = moveInput * 600 * maxAcceleration * Time.deltaTime;
+            wheel.wheelCollider.motorTorque = _accelerationInput * 600 * _maxAcceleration * Time.deltaTime;
         }
     }
 
@@ -147,7 +98,7 @@ public class CarController : MonoBehaviour
         {
             if (wheel.axel == Axel.Front)
             {
-                var _steerAngle = steerInput * turnSensitivity * maxSteerAngle;
+                var _steerAngle = _steerInput * _turnSensitivity * _maxSteerAngle;
                 wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, _steerAngle, 0.6f);
             }
         }
@@ -155,11 +106,11 @@ public class CarController : MonoBehaviour
 
     void Brake()
     {
-        if (Input.GetKey(KeyCode.Space) || moveInput == 0)
+        if (Input.GetKey(KeyCode.Space) || _accelerationInput == 0)
         {
             foreach (var wheel in wheels)
             {
-                wheel.wheelCollider.brakeTorque = 300 * brakeAcceleration * Time.deltaTime;
+                wheel.wheelCollider.brakeTorque = 300 * _brakeForce * Time.deltaTime;
             }
         }
         else
