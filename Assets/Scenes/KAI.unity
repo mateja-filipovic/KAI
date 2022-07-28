@@ -1768,9 +1768,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2a6f01dfc0f44a2a824192c0cb0954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _basicSensorAngle: 20
-  _steepSensorAngle: 30
-  _sideSensorAngle: 80
+  _sensorLength: 25
+  _hitThreshold: 0.07
+  _verticalOffset: 0.5
+  _sensors:
+  - {x: 1.85, y: 0, z: 0}
+  - {x: 1.85, y: 0.75, z: 20}
+  - {x: 1.85, y: -0.75, z: -20}
+  - {x: 1, y: 0.75, z: 30}
+  - {x: 1, y: -0.75, z: -30}
+  - {x: 0, y: 0.75, z: 80}
+  - {x: 0, y: -0.75, z: -80}
+  _detectableLayers:
+  - SensorLayer
 --- !u!4 &1023512473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: fd8897a9f46db4ff1ba74975ec44af36, type: 3}

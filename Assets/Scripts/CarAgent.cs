@@ -6,7 +6,11 @@ using UnityEngine;
 public class CarAgent : Agent
 {
 
+    private const string AXIS_HORIZONTAL = "Horizontal";
+    private const string AXIS_VERTICAL = "Vertical";
+
     private CarController _carController;
+    
     public CheckpointManager _checkpointManager;
 
     public override void Initialize()
@@ -39,7 +43,7 @@ public class CarAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var actions = actionsOut.ContinuousActions;
-        actions[0] = Input.GetAxis("Horizontal"); // steering
-        actions[1] = Input.GetAxis("Vertical"); // acceleration
+        actions[0] = Input.GetAxis(AXIS_HORIZONTAL); // steering
+        actions[1] = Input.GetAxis(AXIS_VERTICAL); // acceleration
     }
 }

@@ -1,136 +1,84 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SensorSystem : MonoBehaviour
 {
     #region Property Fields
-    private float _sensorLength = 25;
-    private float _frontSensorOffset;
-    private float _sideSensorOffset;
 
     [SerializeField]
-    private float _basicSensorAngle;
+    [Tooltip("How far the sensor shoots")]
+    private float _sensorLength = 25;
+
     [SerializeField]
-    private float _steepSensorAngle;
+    [Tooltip("Threshol for detecting if an object hit something using raycasts")]
+    private float _hitThreshold = 0.07f;
+
     [SerializeField]
-    private float _sideSensorAngle;
+    [Tooltip("How much sensors are lifted from the ground")]
+    private float _verticalOffset;
+
+    [SerializeField]
+    [Tooltip("x -> forward offset, y -> right offset, z -> sensor angle")]
+    private List<Vector3> _sensors;
+
+    [SerializeField]
+    [Tooltip("What layers will be detected by the sensor")]
+    private List<string> _detectableLayers;
 
     #endregion
 
     public float SensorLength { get => _sensorLength; set => _sensorLength = value; }
-    public float FrontSensorOffset { get => _frontSensorOffset; set => _frontSensorOffset = value; }
-    public float SideSensorOffset { get => _sideSensorOffset; set => _sideSensorOffset = value; }
-    public float BasicSensorAngle { get => _basicSensorAngle; set => _basicSensorAngle = value; }
-    public float SteepSensorAngle { get => _steepSensorAngle; set => _steepSensorAngle = value; }
-    public float SideSensorAngle { get => _sideSensorAngle; set => _sideSensorAngle = value; }
+    public float HitDistance { get => _hitThreshold; set => _hitThreshold = value; }
+    public float VerticalOffset { get => _verticalOffset; set => _verticalOffset = value; }
+    public List<Vector3> Sensorss { get => _sensors; set => _sensors = value; }
+    public List<string> DetectableLayers { get => _detectableLayers; set => _detectableLayers = value; }
 
-    private int _layerMask;
 
-    public void Awake()
+    private int _layerMask; // calculated using the 'DetectableLayers' property
+
+
+    public void Awake() =>
+        _layerMask = LayerMask.GetMask(DetectableLayers.ToArray());
+
+
+    // since Unity doesn't support transform.left, to supply the left offset just add '-' before the offset
+    private Vector3 CalculateSensorPosition(float forwardOffset, float rightOffset)
     {
-        _layerMask = LayerMask.GetMask("SensorLayer");
+        Vector3 startingPosition = transform.position;
+
+        startingPosition.y += _verticalOffset;
+        startingPosition += transform.forward * forwardOffset;
+        startingPosition += transform.right * rightOffset;
+
+        return startingPosition;
+    }
+
+    private Vector3 CalculateSensorPosition(Vector3 sensorParameters)
+    {
+        Vector3 startingPosition = transform.position;
+
+        startingPosition.y += _verticalOffset;
+        startingPosition += transform.forward * sensorParameters.x;
+        startingPosition += transform.right * sensorParameters.y;
+
+        return startingPosition;
     }
 
     public void Sensors()
     {
-        RaycastHit hit;
+        RaycastHit hitInformation;
         Vector3 sensorStartingPosition;
-        var hitDistance = 0.1f;
 
-
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition += transform.forward * 1.85f;
-        sensorStartingPosition.y += 0.5f;
-        // front center sensor
-        if(Physics.Raycast(sensorStartingPosition, transform.forward, out hit, _sensorLength, _layerMask))
+        foreach(var sensor in _sensors)
         {
-            if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
+            sensorStartingPosition = CalculateSensorPosition(sensor);
+            if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(sensor.z, transform.up) * transform.forward, out hitInformation, _sensorLength, _layerMask))
+            {
+                if(hitInformation.distance < _hitThreshold)
+                    Debug.Log("Hit detected!!!");
 
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-        }
-
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition += transform.forward * 1.85f;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * 0.75f;
-        // front right sensor
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(BasicSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-        }
-
-        // front left sensor
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition += transform.forward * 1.85f;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * (-0.75f);
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(-BasicSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);            
-        }
-
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition += transform.forward * 1.0f;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * 0.75f;
-        // front right sensor 2
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(SteepSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-        }
-
-        // front left sensor 2
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition += transform.forward * 1.0f;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * (-0.75f);
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(-SteepSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);            
-        }
-
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * 0.75f;
-        // right side sensor
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(SideSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-        }
-
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * 0.75f;
-        
-        // right side sensor
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(SideSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);
-        }
-
-        // left side sensor
-        sensorStartingPosition = transform.position;
-        sensorStartingPosition.y += 0.5f;
-        sensorStartingPosition += transform.right * (-0.75f);
-        if(Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(-SideSensorAngle, transform.up) * transform.forward, out hit, _sensorLength, _layerMask))
-        {
-                        if(hit.distance < hitDistance)
-                Debug.Log("Hit detected!!!");
-            Debug.DrawLine(sensorStartingPosition, hit.point, Color.green);            
+                Debug.DrawLine(sensorStartingPosition, hitInformation.point, Color.green);
+            }
         }
     }
 }
