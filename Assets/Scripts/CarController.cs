@@ -45,11 +45,11 @@ public class CarController : MonoBehaviour
     public float TurnSensitivity { get => _turnSensitivity; set => _turnSensitivity = value; }
     public float MaxSteerAngle { get => _maxAcceleration; set => _maxSteerAngle = value; }
     public Vector3 CenterOfMass { get => _centerOfMass; set => _centerOfMass = value; }
-    public List<Wheel> wheels { get => _wheels; set => _wheels = value; }
+    public List<Wheel> Wheels { get => _wheels; set => _wheels = value; }
 
     // used internally
-    float _accelerationInput;
-    float _steerInput;
+    private float _accelerationInput;
+    private float _steerInput;
     private Rigidbody _car;
     private SensorSystem _sensors;
 
@@ -85,15 +85,13 @@ public class CarController : MonoBehaviour
 
     private void Accelerate()
     {
-        foreach(var wheel in wheels)
-        {
+        foreach(var wheel in _wheels)
             wheel.wheelCollider.motorTorque = _accelerationInput * 600 * _maxAcceleration * Time.deltaTime;
-        }
     }
 
     private void Steer()
     {
-        foreach(var wheel in wheels)
+        foreach(var wheel in _wheels)
         {
             // only front axel wheels can be steered
             if (wheel.axel == Axel.Front)
@@ -108,19 +106,19 @@ public class CarController : MonoBehaviour
     {
         if (_accelerationInput == 0)
         {
-            foreach (var wheel in wheels)
+            foreach (var wheel in _wheels)
                 wheel.wheelCollider.brakeTorque = 300 * _brakeForce * Time.deltaTime;
         }
         else
         {
-            foreach (var wheel in wheels)
+            foreach (var wheel in _wheels)
                 wheel.wheelCollider.brakeTorque = 0;
         }
     }
 
     private void AnimateWheels()
     {
-        foreach(var wheel in wheels)
+        foreach(var wheel in _wheels)
         {
             Quaternion rot;
             Vector3 pos;
