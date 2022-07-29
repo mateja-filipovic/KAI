@@ -46,8 +46,11 @@ public class CarController : MonoBehaviour
     public float MaxSteerAngle { get => _maxAcceleration; set => _maxSteerAngle = value; }
     public Vector3 CenterOfMass { get => _centerOfMass; set => _centerOfMass = value; }
     public List<Wheel> Wheels { get => _wheels; set => _wheels = value; }
+    public Rigidbody Car { get => _car; set => _car = value; }
 
     // used internally
+    private Vector3 _spawnPosition;
+    private Quaternion _spawnRotation;
     private float _accelerationInput;
     private float _steerInput;
     private Rigidbody _car;
@@ -58,6 +61,9 @@ public class CarController : MonoBehaviour
         _car = GetComponent<Rigidbody>();
         _car.centerOfMass = _centerOfMass;
 
+        _spawnPosition = transform.position;
+        _spawnRotation = transform.rotation;
+
         _sensors = GetComponent<SensorSystem>();
     }
 
@@ -67,9 +73,23 @@ public class CarController : MonoBehaviour
         AnimateWheels();
     }
 
-    private void LateUpdate()
+    public void Respawn()
     {
-        _sensors.Sensors();
+        transform.position = _spawnPosition;
+        transform.rotation = _spawnRotation;
+        _car.velocity = Vector3.zero;
+        foreach(var wheel in _wheels)
+        {
+            wheel.wheelCollider.motorTorque = 0;
+            wheel.wheelCollider.brakeTorque = 0;
+            wheel.wheelCollider.steerAngle = 0;
+        }
+    }
+
+    public List<(bool, float)> GetSensorOutput() => _sensors.CollectSensorOutputs();
+
+    private void FixedUpdate()
+    {
         Accelerate();
         Steer();
         Brake();
@@ -126,5 +146,14 @@ public class CarController : MonoBehaviour
             wheel.wheelModel.transform.position = pos;
             wheel.wheelModel.transform.rotation = rot;
         }
+    }
+
+    private void ValidateGameObjectInitialization()
+    {
+        if(_car is null)
+            Debug.LogError("The _car object is null");
+
+        if(_sensors is null)
+            Debug.LogError("The _sensors object is null");
     }
 }

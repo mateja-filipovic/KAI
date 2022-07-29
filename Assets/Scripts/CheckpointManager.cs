@@ -1,10 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour
 {
+    public delegate void OnCorrectCheckpointPassedAction();
+    public static event OnCorrectCheckpointPassedAction OnCorrectCheckpointPassed;
+
 
     #region Property Fields
 
@@ -47,10 +48,21 @@ public class CheckpointManager : MonoBehaviour
             var checkpoint = cpTransform.GetComponent<Checkpoint>();
             _checkpoints.Add(checkpoint);
             _checkpointCount++;
-            _nextCheckpointIndexes.Add(0);
             checkpoint.CheckpointManager = this;
-        }       
+        }
+
+        foreach(Transform car in _cars)
+            _nextCheckpointIndexes.Add(0);
     }
+
+    public void ResetCheckpointsForCar(Transform car)
+    {
+        var carIndex = _cars.IndexOf(car);
+        _nextCheckpointIndexes[carIndex] = 0;
+    }
+
+    public Vector3 GetNextCheckpointPosition(Transform car) =>
+        _checkpoints[_nextCheckpointIndexes[_cars.IndexOf(car)]].transform.position;
 
     public void OnCheckpointReached(Checkpoint checkpoint, Transform car)
     {
@@ -61,7 +73,9 @@ public class CheckpointManager : MonoBehaviour
         if(passedCheckpointIndex != correctCheckpointIndex)
             return;
 
-        Debug.Log($"Car No. {carIndex} passed through checkpoint No. {_nextCheckpointIndexes[carIndex]}");
+        // notify subscribers that the correct checkpoint was passed
+        if(OnCorrectCheckpointPassed is not null)
+            OnCorrectCheckpointPassed();
 
         SetNextCheckpointForCar(carIndex);
     }
