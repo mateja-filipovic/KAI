@@ -76,7 +76,7 @@ public class SensorSystem : MonoBehaviour
             sensorStartingPosition = CalculateSensorPosition(sensor);
 
             var hasHit = Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(sensor.z, transform.up) * transform.forward, out hitInformation, _sensorLength, _layerMask);
-            
+
             var hasCollidedWithAWall = (hasHit) ? (hitInformation.distance < _hitThreshold) : false;
             var distanceFromAWall = (hasHit) ? hitInformation.distance : _sensorLength;
 

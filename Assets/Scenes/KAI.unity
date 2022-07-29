@@ -508,7 +508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2792218741957914664, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.36
+      value: 0.501
       objectReference: {fileID: 0}
     - target: {fileID: 2792218741957914664, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -600,7 +600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7495443279060062592, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_AngularDrag
-      value: 5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7495443279060062592, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_Interpolate
@@ -1744,7 +1744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxAcceleration: 600
-  _brakeForce: 1500
+  _brakeForce: 2000
   _turnSensitivity: 1.2
   _maxSteerAngle: 30
   _centerOfMass: {x: 0, y: 0, z: 0}
@@ -1795,7 +1795,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 5000
   _hitPenalty: -1
   _reachCheckpointReward: 1
   _movingTowardsCheckpointReward: 0.04
@@ -1813,7 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 10
+    VectorObservationSize: 13
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -1822,12 +1822,12 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 6a04e78e430734d3e97f14040eb512b0, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: CarBehavior
   TeamId: 0
-  m_UseChildSensors: 1
+  m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
 --- !u!65 &1004597485
@@ -1856,7 +1856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sensorLength: 25
-  _hitThreshold: 0.07
+  _hitThreshold: 0.1
   _verticalOffset: 0.5
   _sensors:
   - {x: 1.85, y: 0, z: 0}
@@ -1866,6 +1866,9 @@ MonoBehaviour:
   - {x: 1, y: -0.75, z: -30}
   - {x: 0, y: 0.75, z: 80}
   - {x: 0, y: -0.75, z: -80}
+  - {x: -1.85, y: 0, z: 180}
+  - {x: -1.85, y: 0.75, z: 160}
+  - {x: -1.85, y: -0.75, z: 200}
   _detectableLayers:
   - SensorLayer
 --- !u!4 &1023512473 stripped

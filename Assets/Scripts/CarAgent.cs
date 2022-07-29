@@ -115,14 +115,13 @@ public class CarAgent : Agent
         List<(bool, float)> sensorOutputs = _carController.GetSensorOutput();
 
         foreach(var output in sensorOutputs)
-        {
             sensor.AddObservation(output.Item2);
-            if(output.Item1)
-            {
-                _endCurrentEpisode = true;
-                _sensorsPenaltyTotal += HitPenalty;
-            }
-        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        _endCurrentEpisode = true;
+        _sensorsPenaltyTotal += HitPenalty;
     }
 
     // manual testing
