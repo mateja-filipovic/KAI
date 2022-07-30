@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 2814
+  controlID: 5140
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 2815
+  controlID: 5141
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 2816
+  controlID: 5142
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,8 +188,8 @@ MonoBehaviour:
     y: 0
     width: 387
     height: 518.5
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -504,9 +504,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 3.3893166, y: 2.4291744, z: -7.5900836}
+    m_Target: {x: 10.361203, y: 1.776916, z: -14.776779}
     speed: 2
-    m_Value: {x: 3.3893166, y: 2.4291744, z: -7.5900836}
+    m_Value: {x: 10.361203, y: 1.776916, z: -14.776779}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -553,13 +553,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+    m_Target: {x: 0.3149269, y: 0.009965445, z: -0.0033068818, w: 0.9490568}
     speed: 2
-    m_Value: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+    m_Value: {x: 0.31492722, y: 0.009965455, z: -0.003306885, w: 0.94905776}
   m_Size:
-    m_Target: 9.179116
+    m_Target: 9.805443
     speed: 2
-    m_Value: 9.179116
+    m_Value: 9.805443
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -652,21 +652,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Brains
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Brains
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/mateja/Diplomski/KAI
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 62}
-    m_SelectedIDs: 0c610000
-    m_LastClickedID: 24844
+    m_SelectedIDs: 26780000
+    m_LastClickedID: 30758
     m_ExpandedIDs: 000000000c6100000e610000106100001261000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0

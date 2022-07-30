@@ -64,6 +64,21 @@ public class SensorSystem : MonoBehaviour
         return startingPosition;
     }
 
+    // public void Update()
+    // {
+    //     RaycastHit hitInformation; // ray hit information
+    //     Vector3 sensorStartingPosition;
+
+    //     foreach(var sensor in _sensors)
+    //     {
+    //         sensorStartingPosition = CalculateSensorPosition(sensor);
+
+    //         var hasHit = Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(sensor.z, transform.up) * transform.forward, out hitInformation, _sensorLength, _layerMask);
+    //         if(hasHit)
+    //             Debug.DrawLine(sensorStartingPosition, hitInformation.point, Color.cyan);
+    //     }
+    // }
+
     public List<(bool, float)> CollectSensorOutputs()
     {
         List<(bool, float)> sensorOutputs = new();
@@ -76,7 +91,7 @@ public class SensorSystem : MonoBehaviour
             sensorStartingPosition = CalculateSensorPosition(sensor);
 
             var hasHit = Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(sensor.z, transform.up) * transform.forward, out hitInformation, _sensorLength, _layerMask);
-
+            
             var hasCollidedWithAWall = (hasHit) ? (hitInformation.distance < _hitThreshold) : false;
             var distanceFromAWall = (hasHit) ? hitInformation.distance : _sensorLength;
 
