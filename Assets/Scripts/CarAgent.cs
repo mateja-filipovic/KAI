@@ -83,7 +83,7 @@ public class CarAgent : Agent
 
     private void CalculateRewardsOnActionsReceived()
     {
-        var directionReward = Vector3.Dot(_carController.Car.velocity.normalized, GetCarDirectionInReferenceToNextCheckpoint());
+        var directionReward = Vector3.Dot(_carController.Car.velocity.normalized, GetCarDirectionInReferenceToNextCheckpoint()) * _movingTowardsCheckpointReward;
         var accelerationReward = _carController.Car.velocity.normalized.magnitude * _speedReward;
 
         AddReward(directionReward);
@@ -103,7 +103,11 @@ public class CarAgent : Agent
         float a = Vector3.Dot(_carController.Car.velocity.normalized, direction);
         sensor.AddObservation(a);
 
-        // Is the car accelerating
+        // Distance to the next checkpoint, normalized
+        Vector3 difference = _checkpointManager.GetNextCheckpointPosition(this.transform) - this.transform.position;
+        sensor.AddObservation(difference.normalized);
+
+        // Is the car currently accelerating
         sensor.AddObservation(_isAccelerating);
     }
 
