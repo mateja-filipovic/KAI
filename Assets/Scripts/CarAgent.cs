@@ -19,10 +19,14 @@ public class CarAgent : Agent
     [SerializeField]
     private float _speedReward;
 
+    [SerializeField]
+    private string _checkpointSystemName;
+
     public float HitPenalty { get => _hitPenalty; set => _hitPenalty = value; }
     public float ReachCheckpointReward { get => _reachCheckpointReward; set => _reachCheckpointReward = value; }
     public float MovingTowardsCheckpointReward { get => _movingTowardsCheckpointReward; set => _movingTowardsCheckpointReward = value; }
     public float SpeedReward { get => _speedReward; set => _speedReward = value; }
+    public string CheckpointSystemName { get => _checkpointSystemName; set => _checkpointSystemName = value; }
 
 
     private const string AXIS_HORIZONTAL = "Horizontal";
@@ -41,15 +45,17 @@ public class CarAgent : Agent
     public override void Initialize()
     {
         _carController = GetComponent<CarController>();
-        _checkpointManager = GameObject.Find("Checkpoints").GetComponent<CheckpointManager>();
+        _checkpointManager = GameObject.Find(_checkpointSystemName).GetComponent<CheckpointManager>();
 
         ValidateGameObjectInitialization();
         
-        CheckpointManager.OnCorrectCheckpointPassed += OnCorrectCheckpointPassedEventHandler;
+        _checkpointManager.OnCorrectCheckpointPassed += OnCorrectCheckpointPassedEventHandler;
     }
 
-    public void OnCorrectCheckpointPassedEventHandler() =>
+    public void OnCorrectCheckpointPassedEventHandler() {
+        Debug.Log("Passed through correct checkpoint!");
         AddReward(_reachCheckpointReward);
+    }
 
     public override void OnEpisodeBegin()
     {

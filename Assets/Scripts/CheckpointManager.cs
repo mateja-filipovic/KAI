@@ -4,7 +4,7 @@ using UnityEngine;
 public class CheckpointManager : MonoBehaviour
 {
     public delegate void OnCorrectCheckpointPassedAction();
-    public static event OnCorrectCheckpointPassedAction OnCorrectCheckpointPassed;
+    public event OnCorrectCheckpointPassedAction OnCorrectCheckpointPassed;
 
 
     #region Property Fields
