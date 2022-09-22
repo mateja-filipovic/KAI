@@ -1,0 +1,65 @@
+{
+    "CarBehavior": {
+        "checkpoints": [
+            {
+                "steps": 7699948,
+                "file_path": "results/24th_run_combined/CarBehavior/CarBehavior-7699948.onnx",
+                "reward": 515.5254939397176,
+                "creation_time": 1663421028.794337,
+                "auxillary_file_paths": [
+                    "results/24th_run_combined/CarBehavior/CarBehavior-7699948.pt"
+                ]
+            },
+            {
+                "steps": 7799998,
+                "file_path": "results/24th_run_combined/CarBehavior/CarBehavior-7799998.onnx",
+                "reward": 514.9438095092773,
+                "creation_time": 1663421226.2403982,
+                "auxillary_file_paths": [
+                    "results/24th_run_combined/CarBehavior/CarBehavior-7799998.pt"
+                ]
+            },
+            {
+                "steps": 7899955,
+                "file_path": "results/24th_run_combined/CarBehavior/CarBehavior-7899955.onnx",
+                "reward": 553.0236854553223,
+                "creation_time": 1663421424.0289679,
+                "auxillary_file_paths": [
+                    "results/24th_run_combined/CarBehavior/CarBehavior-7899955.pt"
+                ]
+            },
+            {
+                "steps": 7999999,
+                "file_path": "results/24th_run_combined/CarBehavior/CarBehavior-7999999.onnx",
+                "reward": 475.19776287078855,
+                "creation_time": 1663421619.694418,
+                "auxillary_file_paths": [
+                    "results/24th_run_combined/CarBehavior/CarBehavior-7999999.pt"
+                ]
+            },
+            {
+                "steps": 8000063,
+                "file_path": "results/24th_run_combined/CarBehavior/CarBehavior-8000063.onnx",
+                "reward": 475.19776287078855,
+                "creation_time": 1663421619.723267,
+                "auxillary_file_paths": [
+                    "results/24th_run_combined/CarBehavior/CarBehavior-8000063.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 8000063,
+            "file_path": "results/24th_run_combined/CarBehavior.onnx",
+            "reward": 475.19776287078855,
+            "creation_time": 1663421619.723267,
+            "auxillary_file_paths": [
+                "results/24th_run_combined/CarBehavior/CarBehavior-8000063.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.8.1"
+    }
+}

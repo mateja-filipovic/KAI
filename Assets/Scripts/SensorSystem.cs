@@ -36,6 +36,8 @@ public class SensorSystem : MonoBehaviour
 
     private int _layerMask; // calculated using the 'DetectableLayers' property
 
+    private bool _showRays = true;
+
 
     public void Awake() =>
         _layerMask = LayerMask.GetMask(DetectableLayers.ToArray());
@@ -64,9 +66,17 @@ public class SensorSystem : MonoBehaviour
         return startingPosition;
     }
 
+    // draw rays
     public void Update()
     {
-        RaycastHit hitInformation; // ray hit information
+        if(Input.GetKeyDown("e"))
+            _showRays = !_showRays;
+
+        if(!_showRays)
+            return;
+
+
+        RaycastHit hitInformation; 
         Vector3 sensorStartingPosition;
 
         foreach(var sensor in _sensors)
@@ -79,9 +89,9 @@ public class SensorSystem : MonoBehaviour
         }
     }
 
-    public List<(bool, float)> CollectSensorOutputs()
+    public List<float> CollectSensorOutputs()
     {
-        List<(bool, float)> sensorOutputs = new();
+        List<float> sensorOutputs = new();
 
         RaycastHit hitInformation; // ray hit information
         Vector3 sensorStartingPosition;
@@ -92,10 +102,9 @@ public class SensorSystem : MonoBehaviour
 
             var hasHit = Physics.Raycast(sensorStartingPosition, Quaternion.AngleAxis(sensor.z, transform.up) * transform.forward, out hitInformation, _sensorLength, _layerMask);
             
-            var hasCollidedWithAWall = (hasHit) ? (hitInformation.distance < _hitThreshold) : false;
             var distanceFromAWall = (hasHit) ? hitInformation.distance : _sensorLength;
 
-            sensorOutputs.Add((hasCollidedWithAWall, distanceFromAWall));
+            sensorOutputs.Add(distanceFromAWall);
         }
 
         return sensorOutputs;

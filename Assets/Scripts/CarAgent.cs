@@ -41,7 +41,7 @@ public class CarAgent : Agent
     private bool _isAccelerating;
     private bool _endCurrentEpisode;
     private float _sensorsPenaltyTotal; // a penalty is added for every collision detected by the sensor system
-
+    
     public override void Initialize()
     {
         _carController = GetComponent<CarController>();
@@ -50,10 +50,10 @@ public class CarAgent : Agent
         ValidateGameObjectInitialization();
         
         _checkpointManager.OnCorrectCheckpointPassed += OnCorrectCheckpointPassedEventHandler;
+
     }
 
     public void OnCorrectCheckpointPassedEventHandler() {
-        Debug.Log("Passed through correct checkpoint!");
         AddReward(_reachCheckpointReward);
     }
 
@@ -98,16 +98,16 @@ public class CarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // The speed of the car
+        // Car speed
         sensor.AddObservation(_carController.Car.velocity.normalized.magnitude);
 
         // Sensor outputs
         InterpretateSensorOutputs(sensor);
 
-        // Direction and distance to the next checkpoint
+        // Dot product of the current velocity and direction in reference to the next goal
         var direction = GetCarDirectionInReferenceToNextCheckpoint();
-        float a = Vector3.Dot(_carController.Car.velocity.normalized, direction);
-        sensor.AddObservation(a);
+        float product = Vector3.Dot(_carController.Car.velocity.normalized, direction);
+        sensor.AddObservation(product);
 
         // Distance to the next checkpoint, normalized
         Vector3 difference = _checkpointManager.GetNextCheckpointPosition(this.transform) - this.transform.position;
@@ -122,10 +122,10 @@ public class CarAgent : Agent
 
     private void InterpretateSensorOutputs(VectorSensor sensor)
     {
-        List<(bool, float)> sensorOutputs = _carController.GetSensorOutput();
+        List<float> sensorOutputs = _carController.GetSensorOutput();
 
         foreach(var output in sensorOutputs)
-            sensor.AddObservation(output.Item2);
+            sensor.AddObservation(output);
     }
 
     void OnCollisionEnter(Collision collision)

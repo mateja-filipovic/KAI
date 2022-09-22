@@ -86,7 +86,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public List<(bool, float)> GetSensorOutput() => _sensors.CollectSensorOutputs();
+    public List<float> GetSensorOutput() => _sensors.CollectSensorOutputs();
 
     private void FixedUpdate()
     {
