@@ -39,11 +39,11 @@ This is a deep reinforcement learning project made using the Unity ML-Agents lib
 - for more information about the config file, you can refer to the **[training config file docs](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-Configuration-File.md)**
 
 ## Docs
-More extensive documentation is available in the docs folder. For library reference, use can use **[this link](https://github.com/Unity-Technologies/ml-agents/tree/main/docs)**
+Explanation of the project core can be found in the docs folder. It includes a description of some implementation details, namely actions and obeservations implementations. For library reference, use can use **[this link](https://github.com/Unity-Technologies/ml-agents/tree/main/docs)**
 
 
 ## Demo
-Here's a quick demo of a pretrained model navigating the track:
+Here's a quick demo of a pretrained model navigating the track:<br/>
 https://user-images.githubusercontent.com/62219501/181906662-53b9a64f-7842-4f04-b7bf-c498c2d1456c.mov
 
 <!-- URL DEFINITIONS -->
