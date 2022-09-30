@@ -2,17 +2,7 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/KAI/[Ll]ibrary/APIUpdater/
-/KAI/[Ll]ibrary/Artifacts/
-/KAI/[Ll]ibrary/BuildPlayerData/
-/KAI/[Ll]ibrary/PackageCache/
-/KAI/[Ll]ibrary/PackageManager/
-/KAI/[Ll]ibrary/PlayerDataCache/
-/KAI/[Ll]ibrary/ScriptAssemblies/
-/KAI/[Ll]ibrary/ShaderCache/
-/KAI/[Ll]ibrary/StateCache/
-/KAI/[Ll]ibrary/TempArtifacts/
-/KAI/[Ll]ibrary/UIElements/
+/KAI/[Ll]ibrary/
 /KAI/[Tt]emp/
 /KAI/[Oo]bj/
 /KAI/[Bb]uild/
