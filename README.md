@@ -1,4 +1,5 @@
 # KAI - Self Driving Car AI
+![KAI](/Graphics/kai_banner.jpg "KAI")
 An intelligent, self driving car agent using the Unity ML-Agents Library. The agent was trained using reinforcement learning (PPO algorithm), implemented in the library.
 <br/>
 <br/>
@@ -7,6 +8,10 @@ An intelligent, self driving car agent using the Unity ML-Agents Library. The ag
 ## Project summary
 This is a deep reinforcement learning project made using the Unity ML-Agents library. Actions that the agent can take are accelerating/braking and steering. Its task is to navigate the track without colliding with a wall, while passing checkpoints distributed along the tracks and collecting rewards.
 <br/>
+
+
+## Releases
+If you want to run the simulation on your machine without setting up and building the project, you can check out **[project releases](https://github.com/mateja-filipovic/KAI/releases/tag/v1.0)**. Releases include zipped binaries for windows and macOS (+ apple silicon support), that use pretrained models from the results folder to navigate the track.
 <br/>
 
 
@@ -19,7 +24,6 @@ This is a deep reinforcement learning project made using the Unity ML-Agents lib
     ``` bash
     conda env create -f kay_env.yml
     ```
-<br/>
 
 
 ## Usage
